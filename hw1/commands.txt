@@ -1,0 +1,14 @@
+get http://netapp.cs.kookmin.ac.kr/member/palladio.JPG
+
+get http://netapp.cs.kookmin.ac.kr:80/member/palladio.JPG
+
+get http://jameskim79.ipdisk.co.kr:8000/apps/wordpress/wp-content/uploads/2017/12/cropped-IMG_0551.jpg
+
+get http://media1.santabanta.com:80/full5/Miscellaneous/Good%20Morning/good-morning-58a.jpg
+
+get http://s3.amazonaws.com/american-rivers-website/wp-content/uploads/2015/09/22182724/NW-rivers-threatened-by-Red-Flat-Systems_KenMorrish-header-713x629.jpg
+
+get http://media1.santabanta.com:80/full5/Miscellaneous/Good%20Morning/good-morning-58a.jpg
+
+
+

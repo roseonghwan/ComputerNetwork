@@ -1,0 +1,5 @@
+get http://netapp.cs.kookmin.ac.kr/member/palladio.JPG
+get http://netapp.cs.kookmin.ac.kr:80/index.html
+get http://netapp.cs.kookmin.ac.kr/aaa.html
+get https://netapp.cs.kookmin.ac.kr/aaa.html
+quit
