@@ -19,7 +19,7 @@
 
 #define GETCMD "get"
 #define QUITCMD "quit"
-#define BUFSIZE 65536
+#define BUFSIZE 0x10000
 
 static inline void PROMPT()
 {
@@ -80,40 +80,71 @@ int main()
         if ((sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
         {
             perror("socket");
-            exit(1);
-        }
-
-        char *uri = strtok(NULL, "/");
-        uri = strtok(NULL, "/");
-        printf("domain: %s\n", uri);
-
-        if ((hostp = gethostbyname(uri)) == 0)
-        {
-            fprintf(stderr, "%s: unknown host\n", uri);
-            exit(1);
-        }
-
-        memset(&server, 0, sizeof(server));
-        server.sin_family = AF_INET;
-        memcpy(&server.sin_addr, hostp->h_addr_list[0], hostp->h_length);
-        // server.sin_port = htons(80);
-
-        if (connect(sock, (struct sockaddr *)&server, sizeof(server)) < 0)
-        {
-            close(sock);
-            fprintf(stderr, "Can't connect to server %s", uri);
             PROMPT();
             continue;
         }
 
-        if (write(sock, buf, strlen(buf)) < 0)
+        cmd = strtok(NULL, " \t\r\n");
+        cmd = strtok(cmd, "/");
+        cmd = strtok(NULL, "/");
+
+        char domain[strlen(cmd)];
+        strcpy(domain, cmd);
+
+        cmd = strtok(NULL, "/");
+        char path[strlen(cmd)];
+        strcpy(path, cmd);
+
+        cmd = strtok(NULL, "/");
+        char fileName[strlen(cmd)];
+        strcpy(fileName, cmd);
+
+        if ((hostp = gethostbyname(domain)) == 0)
         {
-            perror("write");
-            exit(1);
+            fprintf(stderr, "%s: unknown host\n", domain);
+            PROMPT();
+            continue;
         }
 
-        bytesread = read(sock, buf, sizeof(buf));
-        buf[bytesread] = '\0';
-        fprintf(stdout, "Total Size %d bytes\n", bytesread);
+        char *ip = inet_ntoa(*(struct in_addr *)hostp->h_addr_list[0]);
+
+        memset(&server, 0, sizeof(server));
+        server.sin_family = AF_INET;
+        server.sin_addr.s_addr = inet_addr(ip);
+        server.sin_port = htons(80);
+
+        if (connect(sock, (struct sockaddr *)&server, sizeof(server)) < 0)
+        {
+            close(sock);
+            fprintf(stderr, "Can't connect to server %s", domain);
+            PROMPT();
+            continue;
+        }
+        char send_msg[BUFSIZE];
+        sprintf(send_msg, "GET /%s/%s HTTP/1.0\r\nHost: %s\r\nUser-agent: HW1/1.0 Connection: close\r\n\r\n", path, fileName, domain);
+        printf("%s\n", send_msg);
+
+        if (write(sock, send_msg, strlen(send_msg)) < 0)
+        {
+            perror("write");
+            PROMPT();
+            continue;
+        }
+
+        char response_msg[BUFSIZE];
+
+        if ((bytesread = recv(sock, response_msg, sizeof response_msg, 0)) < 0)
+        {
+            printf("Failed read()\n");
+            PROMPT();
+            continue;
+        }
+
+        response_msg[bytesread] = '\0';
+        printf("Total Size %d bytes\n", bytesread);
+        printf("%s\n", response_msg);
+
+        close(sock);
+        PROMPT();
     }
 }
