@@ -1,0 +1,49 @@
+Student ID : 20171615
+Name : Seonghwan Noh
+
+> GET /member/palladio.JPG HTTP/1.0
+Host: netapp.cs.kookmin.ac.kr
+User-agent: HW1/1.0
+Connection: close
+
+
+Total Size 142740 bytes
+Current Downloading 15250/142740 (bytes) 10%
+Current Downloading 29058/142740 (bytes) 20%
+Current Downloading 43186/142740 (bytes) 30%
+Current Downloading 57346/142740 (bytes) 40%
+Current Downloading 71682/142740 (bytes) 50%
+Current Downloading 86554/142740 (bytes) 60%
+Current Downloading 100010/142740 (bytes) 70%
+Current Downloading 114346/142740 (bytes) 80%
+Current Downloading 128682/142740 (bytes) 90%
+Current Downloading 142740/142740 (bytes) 100%
+Download Complete: palladio.JPG, 142740/142740
+
+> GET /index.html HTTP/1.0
+Host: netapp.cs.kookmin.ac.kr
+User-agent: HW1/1.0
+Connection: close
+
+
+Total Size 7034 bytes
+Current Downloading 1775/7034 (bytes) 25%
+Current Downloading 2799/7034 (bytes) 39%
+Current Downloading 3823/7034 (bytes) 54%
+Current Downloading 4847/7034 (bytes) 68%
+Current Downloading 5871/7034 (bytes) 83%
+Current Downloading 6895/7034 (bytes) 98%
+Current Downloading 7034/7034 (bytes) 100%
+Download Complete: index.html, 7034/7034
+
+> GET /aaa.html HTTP/1.0
+Host: netapp.cs.kookmin.ac.kr
+User-agent: HW1/1.0
+Connection: close
+
+
+404 Not Found
+
+> Only support http, not https
+
+> 

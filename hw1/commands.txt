@@ -1,4 +1,8 @@
 get http://netapp.cs.kookmin.ac.kr/member/palladio.JPG
+get https://netapp.cs.kookmin.ac.kr/member/palladio.JPG
+get ftp://netapp.cs.kookmin.ac.kr/member/palladio.JPG
+get http://netapp.cs.kookmin.ac.kr/member/sanghwan.html
+get http://netapp.cs.kookmin.ac.kr/a.html
 
 get http://netapp.cs.kookmin.ac.kr:80/member/palladio.JPG
 
