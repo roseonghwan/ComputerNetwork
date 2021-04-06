@@ -235,25 +235,25 @@ int main()
         int total_size = atoi(filesize);
         printf("Total Size %d bytes\n", total_size);
 
-        char *receive_data = strtok(NULL, "\n");
+        char *body_data = strtok(NULL, "\n");
         // printf("receive_data: %s\n", receive_data);
 
         // seperate header
-        while (receive_data[0] != '\r')
+        while (body_data[0] != '\r')
         {
-            receive_data = strtok(NULL, "\n");
+            body_data = strtok(NULL, "\n");
         }
-        receive_data = strtok(NULL, "\n");
+        body_data = strtok(NULL, "\n");
 
         FILE *fp = fopen(fname, "wb");
 
-        int start_data = strlen(receive_data);
+        int start_body = strlen(body_data);
 
         // Don't write if HTTP response header has no data
-        if (*receive_data != 0)
+        if (*body_data != 0)
         {
             // seperate header size
-            fwrite(receive_data, bytesread - (start_response - start_data), 1, fp);
+            fwrite(body_data, bytesread - (start_response - start_body), 1, fp);
         }
         int i = 1, download = 0;
         while (true)
