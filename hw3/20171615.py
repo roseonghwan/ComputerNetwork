@@ -37,12 +37,39 @@ except OSError:
 while True:
     rlist, wlist, xlist = select.select(inputList, [], [])
     for sock in rlist:
-        # client new connected
+        # Input from the client for new connection
         if sock == serverSocket:
             clientSocket, clientAddr = serverSocket.accept()
             inputList.append(clientSocket)
             print('Connection from host {}, port {}, socket{}'.format(
                 clientAddr[0], clientAddr[1], clientSocket.fileno()))
-        # else:
+        else:
+            try:
+                # receive message from client
+                msg = sock.recv(BUFSIZE).decode()
+                # msg = msg.split('\r\n')[0]
+                # msg = msg[: -2]
+                msg = msg[: msg.index('\r')]
+                msg += '\n'
+                # send message
+                for sock_in_list in inputList:
+                    if sock_in_list != serverSocket and sock_in_list != sock:
+                        try:
+                            sock_in_list.send(msg.encode())
+                        except:
+                            sock_in_list.close()
+                            inputList.remove(sock_in_list)
+            except:
+                # connection end
+                for sock_in_list in inputList:
+                    if sock_in_list != serverSocket and sock_in_list != sock:
+                        try:
+                            sock_in_list.send('good bye\n'.encode())
+                        except:
+                            sock_in_list.close()
+                            inputList.remove(sock_in_list)
+                print('Connection Closed {}'.format(sock.fileno()))
+                inputList.remove(sock)
+                sock.close()
 
 serverSocket.close()
